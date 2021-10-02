@@ -51,7 +51,12 @@ class CalculateManager
 
         $this->transactions->each(function ($eachTransaction) {
             /** @var Transaction $eachTransaction */
-            echo $eachTransaction->getCommission() . "\n";
+            echo
+                $eachTransaction->getMemoryIndex() ."  ".
+                $eachTransaction->getCurrency() ."  ".
+                $eachTransaction->getTransactionDate() ."  ".
+                $eachTransaction->getAmount() .
+                "===". $eachTransaction->getCommission() . "\n";
         });
     }
 }

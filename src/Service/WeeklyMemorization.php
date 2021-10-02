@@ -7,13 +7,23 @@ class WeeklyMemorization implements MemorizationContract
 {
     private $memory = array();
 
-    public function getData()
+    /**
+     * @param $index
+     * @return array|mixed
+     */
+    public function getData(string $index): array
     {
-        return $this->memory;
+        return !empty($this->memory[$index]) ? $this->memory[$index] : array();
     }
 
-    public function saveData($data)
+    /**
+     * @param $index
+     * @param $data
+     * @return bool
+     */
+    public function saveData(string $index, array $data): bool
     {
-        $this->memory = $data;
+        $this->memory[$index] = $data;
+        return true;
     }
 }

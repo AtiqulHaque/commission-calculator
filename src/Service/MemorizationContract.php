@@ -5,7 +5,16 @@ namespace Paysera\CommissionTask\Service;
 
 interface MemorizationContract
 {
-    public function getData();
+    /**
+     * @param $index
+     * @return array
+     */
+    public function getData(string $index): array;
 
-    public function saveData($data);
+    /**
+     * @param $index
+     * @param $data
+     * @return bool
+     */
+    public function saveData(string $index, array $data): bool;
 }
