@@ -1,6 +1,6 @@
 {
     "name": "annual/commission-calculation-package",
-    "description": "commission calculation package",
+    "description": "Simple commission calculation package",
     "keywords": [],
     "type": "project",
     "autoload": {
@@ -16,7 +16,6 @@
     "require": {
         "php": ">=7.0",
         "ext-bcmath": "*",
-        "nesbot/carbon": "^2.53",
         "guzzlehttp/guzzle": "~6.0",
         "ext-json": "*",
         "vlucas/phpdotenv": "^5.3"
@@ -31,6 +30,9 @@
         "bin-dir": "bin"
     },
     "scripts": {
+        "create-env": [
+            "@php -r \"file_exists('.env') || copy('example.env', '.env');\""
+        ],
         "phpunit": "phpunit",
         "fix-cs": "php-cs-fixer fix",
         "test-cs": "php-cs-fixer fix --dry-run -v",

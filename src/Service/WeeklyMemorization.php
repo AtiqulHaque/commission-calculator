@@ -1,29 +1,31 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Annual\CommissionTask\Service;
 
 class WeeklyMemorization implements MemorizationContract
 {
-    private $memory = array();
+    private $memory = [];
 
     /**
      * @param $index
+     *
      * @return array|mixed
      */
     public function getData(string $index): array
     {
-        return !empty($this->memory[$index]) ? $this->memory[$index] : array();
+        return !empty($this->memory[$index]) ? $this->memory[$index] : [];
     }
 
     /**
      * @param $index
      * @param $data
-     * @return bool
      */
     public function saveData(string $index, array $data): bool
     {
         $this->memory[$index] = $data;
+
         return true;
     }
 }

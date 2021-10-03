@@ -12,23 +12,22 @@ class CalculateManager
 {
     /** @var TransactionCollection $transactions */
     public $transactions = null;
-    public $rules = array();
-
+    public $rules = [];
 
     /**
-     * @param TransactionCollection $collection
      * @return $this
      */
     public function addTransactions(TransactionCollection $collection)
     {
         $this->transactions = $collection;
+
         return $this;
     }
-
 
     public function addRule(RuleContract $rule)
     {
         $this->rules[] = $rule;
+
         return $this;
     }
 
@@ -43,26 +42,18 @@ class CalculateManager
                 }
             }
         });
+
         return $this;
     }
 
     public function printCommission()
     {
-
         $this->transactions->each(function ($eachTransaction) {
             /** @var Transaction $eachTransaction */
-            echo
-                $eachTransaction->getMemoryIndex() ."  ".
-                $eachTransaction->getCurrency() ."  ".
-                $eachTransaction->getTransactionDate() ."  ".
-                $eachTransaction->getAmount() .
-                "===". $eachTransaction->getCommission() . "\n";
+            echo $eachTransaction->getCommission() . "\n";
         });
     }
 
-    /**
-     * @return array
-     */
     public function getAllTransactions(): array
     {
         return $this->transactions->all();

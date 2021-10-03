@@ -27,7 +27,6 @@ class TransactionCollection
     }
 
     /**
-     * @param callable $callBack
      * @return array
      */
     public function each(callable $callBack)
@@ -35,11 +34,10 @@ class TransactionCollection
         return array_map($callBack, $this->allEntities);
     }
 
-
     /**
      * @param array $entities
      */
-    private function parseData($entities = array())
+    private function parseData($entities = [])
     {
         foreach ($entities as $each) {
             $this->allEntities[] = new Transaction($each);

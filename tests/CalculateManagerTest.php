@@ -9,6 +9,7 @@ use Annual\CommissionTask\CommissionRules\WithdrawBusinessRule;
 use Annual\CommissionTask\CommissionRules\WithdrawPrivateRule;
 use Annual\CommissionTask\Service\ExchangeRateService\ExchangeRateService;
 use Annual\CommissionTask\Service\WeeklyMemorization;
+use Annual\CommissionTask\Transactions\CsvInputData;
 use Annual\CommissionTask\Transactions\TransactionCollection;
 use PHPUnit\Framework\TestCase;
 use stdClass;
@@ -223,15 +224,15 @@ class CalculateManagerTest extends TestCase
         ];
     }
 
-    public function getSampleTransaction($transactionDate, $user, $userType, $opType, $amount, $currency): stdClass
+    public function getSampleTransaction($transactionDate, $user, $userType, $opType, $amount, $currency): CsvInputData
     {
-        $stdObject = new stdClass();
-        $stdObject->transactionDate = $transactionDate;
-        $stdObject->userIdentification = $user;
-        $stdObject->userType = $userType;
-        $stdObject->operationType = $opType;
-        $stdObject->operationAmount = $amount;
-        $stdObject->operationCurrency = $currency;
-        return $stdObject;
+        $inputObject = new CsvInputData();
+        $inputObject->setTransactionDate($transactionDate);
+        $inputObject->setUserIdentification($user);
+        $inputObject->setUserType($userType);
+        $inputObject->setOperationType($opType);
+        $inputObject->setOperationAmount($amount);
+        $inputObject->setOperationCurrency($currency);
+        return $inputObject;
     }
 }

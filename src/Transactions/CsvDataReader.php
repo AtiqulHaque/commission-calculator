@@ -6,16 +6,11 @@ namespace Annual\CommissionTask\Transactions;
 
 class CsvDataReader extends DataReader
 {
-
     public function __construct($baseUrl)
     {
         $this->baseUrl = $baseUrl;
     }
 
-    /**
-     * @param FormatterContract $formatter
-     * @return CsvDataReader
-     */
     public function setFormatter(FormatterContract $formatter): CsvDataReader
     {
         $this->formatter = $formatter;
@@ -37,9 +32,6 @@ class CsvDataReader extends DataReader
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getData(): array
     {
         return $this->content;

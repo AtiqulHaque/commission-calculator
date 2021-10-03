@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Annual\CommissionTask\Transactions;
 
-use Carbon\Carbon;
 use Annual\CommissionTask\Helper;
-use stdClass;
 
 class Transaction
 {
@@ -18,14 +16,14 @@ class Transaction
     private $transactionDate;
     private $commission = 0.00;
 
-    public function __construct(stdClass $obj)
+    public function __construct(CsvInputData $obj)
     {
-        $this->transactionDate = $obj->transactionDate;
-        $this->userIdentification = $obj->userIdentification;
-        $this->userType = $obj->userType;
-        $this->operationType = $obj->operationType;
-        $this->operationAmount = $obj->operationAmount;
-        $this->operationCurrency = $obj->operationCurrency;
+        $this->transactionDate = $obj->getTransactionDate();
+        $this->userIdentification = $obj->getUserIdentification();
+        $this->userType = $obj->getUserType();
+        $this->operationType = $obj->getOperationType();
+        $this->operationAmount = $obj->getOperationAmount();
+        $this->operationCurrency = $obj->getOperationCurrency();
     }
 
     public function isCurrencyEuro(): bool
@@ -43,51 +41,16 @@ class Transaction
         return $this->operationCurrency;
     }
 
-    /**
-     * @return string
-     */
-    public function getUserType(): string
-    {
-        return $this->userType;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOperationType(): string
-    {
-        return $this->operationType;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOperationCurrency(): string
-    {
-        return $this->operationCurrency;
-    }
-
-    /**
-     * @return string
-     */
-
     public function getTransactionDate(): string
     {
         return $this->transactionDate;
     }
 
-    /**
-     * @return float
-     */
     public function getCommission(): float
     {
         return $this->commission;
     }
 
-
-    /**
-     * @param float $commission
-     */
     public function setCommission(float $commission)
     {
         $this->commission = $commission;
@@ -95,24 +58,22 @@ class Transaction
 
     public function isDeposit(): bool
     {
-        return ($this->operationType == "deposit");
+        return $this->operationType === 'deposit';
     }
 
     public function isWithdraw(): bool
     {
-        return ($this->operationType == "withdraw");
+        return $this->operationType === 'withdraw';
     }
-
 
     public function isPrivateWithdraw(): bool
     {
-        return ($this->userType == "private");
+        return $this->userType === 'private';
     }
-
 
     public function isBusinessWithdraw(): bool
     {
-        return ($this->userType == "business");
+        return $this->userType === 'business';
     }
 
     /**
@@ -131,7 +92,4 @@ class Transaction
     {
         return $this->userIdentification;
     }
-
-
-
 }

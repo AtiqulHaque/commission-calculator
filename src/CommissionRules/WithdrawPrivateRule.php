@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Annual\CommissionTask\CommissionRules;
@@ -9,13 +10,11 @@ use Annual\CommissionTask\Transactions\Transaction;
 
 class WithdrawPrivateRule implements RuleContract
 {
-
     private $memorization;
     private $exchangeRateService;
     private $weeklyCountConstrain = 3;
     private $weeklyChargeFreeAmount = 1000;
     private $commissionFee = 0.3;
-
 
     public function __construct(WeeklyMemorization $memorization, ExchangeRateContract $exchangeRateService)
     {
@@ -52,32 +51,21 @@ class WithdrawPrivateRule implements RuleContract
         return $transaction;
     }
 
-
-    /**
-     * @param string $index
-     * @param array $weeklyHistory
-     * @param float $amount
-     * @return bool
-     */
     public function updateMemoryWithIndex(string $index, array $weeklyHistory, float $amount): bool
     {
         if (!empty($weeklyHistory)) {
             $weeklyHistory['weeklyTotal'] += $amount;
-            $weeklyHistory['weeklyCount'] += 1;
+            ++$weeklyHistory['weeklyCount'];
         } else {
             $weeklyHistory['weeklyTotal'] = $amount;
             $weeklyHistory['weeklyCount'] = 1;
         }
+
         return $this->memorization->saveData($index, $weeklyHistory);
     }
 
     /**
-     * @param Transaction $transaction
      * @param $amount
-     * @param string $index
-     * @param array $weeklyHistory
-     * @param float $rate
-     * @return float
      */
     protected function updateCommission(
         Transaction $transaction,
@@ -86,7 +74,6 @@ class WithdrawPrivateRule implements RuleContract
         array $weeklyHistory,
         float $rate = 1.00
     ): float {
-
         $calculatedValue = ($this->commissionFee / 100) * $amount;
 
         if (!$transaction->isCurrencyEuro()) {
@@ -96,14 +83,10 @@ class WithdrawPrivateRule implements RuleContract
         }
 
         $this->updateMemoryWithIndex($index, $weeklyHistory, $amount);
-        return (float)$calculatedValue;
+
+        return (float) $calculatedValue;
     }
 
-    /**
-     * @param Transaction $transaction
-     * @param array $weeklyHistory
-     * @param string $index
-     */
     protected function processIfCurrencyEuro(Transaction $transaction, array $weeklyHistory, string $index): void
     {
         $amount = $weeklyHistory['weeklyTotal'];
@@ -120,11 +103,6 @@ class WithdrawPrivateRule implements RuleContract
         }
     }
 
-    /**
-     * @param Transaction $transaction
-     * @param array $weeklyHistory
-     * @param string $index
-     */
     protected function processIfNotEuro(Transaction $transaction, array $weeklyHistory, string $index): void
     {
         $rate = $this->exchangeRateService->getRate($transaction->getCurrency());
@@ -141,12 +119,6 @@ class WithdrawPrivateRule implements RuleContract
         }
     }
 
-    /**
-     * @param Transaction $transaction
-     * @param string $index
-     * @param array $weeklyHistory
-     * @return float
-     */
     protected function processIfNotEuroWithEmptyHistory(
         Transaction $transaction,
         string $index,
@@ -170,15 +142,10 @@ class WithdrawPrivateRule implements RuleContract
                 $this->updateMemoryWithIndex($index, $weeklyHistory, $amount);
             }
         }
-        return (float)$amount;
+
+        return (float) $amount;
     }
 
-    /**
-     * @param Transaction $transaction
-     * @param string $index
-     * @param array $weeklyHistory
-     * @return float
-     */
     protected function processEuroWithEmptyHistory(Transaction $transaction, string $index, array $weeklyHistory): float
     {
         if ($transaction->getAmount() > $this->weeklyChargeFreeAmount) {
@@ -189,28 +156,20 @@ class WithdrawPrivateRule implements RuleContract
         } else {
             $this->updateMemoryWithIndex($index, $weeklyHistory, $transaction->getAmount());
         }
-        return (float)$transaction->getAmount();
+
+        return (float) $transaction->getAmount();
     }
 
-    /**
-     * @param int $weeklyCountConstrain
-     */
     public function setWeeklyCountConstrain(int $weeklyCountConstrain)
     {
         $this->weeklyCountConstrain = $weeklyCountConstrain;
     }
 
-    /**
-     * @param int $weeklyChargeFreeAmount
-     */
     public function setWeeklyChargeFreeAmount(int $weeklyChargeFreeAmount)
     {
         $this->weeklyChargeFreeAmount = $weeklyChargeFreeAmount;
     }
 
-    /**
-     * @param float $commissionFee
-     */
     public function setCommissionFee(float $commissionFee)
     {
         $this->commissionFee = $commissionFee;

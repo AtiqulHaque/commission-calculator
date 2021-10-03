@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Annual\CommissionTask;
@@ -9,30 +10,29 @@ class Helper
     {
         // 1. Convert input to $year, $month, $day
         $dateSet = strtotime($date);
-        $year = date("Y", $dateSet);
-        $month = date("m", $dateSet);
-        $day = date("d", $dateSet);
-
+        $year = date('Y', $dateSet);
+        $month = date('m', $dateSet);
+        $day = date('d', $dateSet);
 
         // 2. check if $year is a  leapyear
-        if (($year % 4 == 0 && $year % 100 != 0) || $year % 400 == 0) {
+        if (($year % 4 === 0 && $year % 100 !== 0) || $year % 400 === 0) {
             $leapYear = true;
         } else {
             $leapYear = false;
         }
 
         // 3. check if $year-1 is a  leapyear
-        if ((($year - 1) % 4 == 0 && ($year - 1) % 100 != 0) || ($year - 1) % 400 == 0) {
+        if ((($year - 1) % 4 === 0 && ($year - 1) % 100 !== 0) || ($year - 1) % 400 === 0) {
             $leapYearPrev = true;
         } else {
             $leapYearPrev = false;
         }
 
         // 4. find the dayofyearnumber for y m d
-        $mnth = array(0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334);
+        $mnth = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
         $dayOfYearNumber = $day + $mnth[$month - 1];
         if ($leapYear && $month > 2) {
-            $dayOfYearNumber++;
+            ++$dayOfYearNumber;
         }
 
         // 5. find the jan1weekday for y (monday=1, sunday=7)
@@ -61,7 +61,7 @@ class Helper
         }
 
         // 8. find if y m d falls in yearnumber y+1, weeknumber 1
-        if ($yearNumber == $year && !$foundWeekNum) {
+        if ($yearNumber === $year && !$foundWeekNum) {
             if ($leapYear) {
                 $i = 366;
             } else {
@@ -75,11 +75,11 @@ class Helper
         }
 
         // 9. find if y m d falls in yearnumber y, weeknumber 1 through 53
-        if ($yearNumber == $year && !$foundWeekNum) {
+        if ($yearNumber === $year && !$foundWeekNum) {
             $j = $dayOfYearNumber + (7 - $weekday) + ($janFirstWeekDay - 1);
             $weekNumber = intval($j / 7);
             if ($janFirstWeekDay > 4) {
-                $weekNumber--;
+                --$weekNumber;
             }
         }
 
