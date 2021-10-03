@@ -1,6 +1,6 @@
 <?php
+declare(strict_types=1);
 
-use Carbon\Carbon;
 use Annual\CommissionTask\CalculateManager;
 use Annual\CommissionTask\CommissionRules\DepositRule;
 use Annual\CommissionTask\CommissionRules\WithdrawBusinessRule;

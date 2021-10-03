@@ -15,6 +15,7 @@ class CalculateManager
     public $rules = [];
 
     /**
+     * @param TransactionCollection $collection
      * @return $this
      */
     public function addTransactions(TransactionCollection $collection)

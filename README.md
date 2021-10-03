@@ -1,11 +1,36 @@
-# Paysera Commission task skeleton
+#Tiny Commission calculator
+Its very simple commission calculator package. 
+This package read transaction from a CSV file then apply Pre define commission Rules. 
 
-Following steps:
-- don't forget to change `Paysera` namespace and package name in `composer.json`
- to your own, as `Paysera` keyword should not be used anywhere in your task;
-- `\Paysera\CommissionTask\Service\Math` is an example class provided for the skeleton and could or could not be used by your preference;
-- needed scripts could be found inside `composer.json`;
-- before submitting the task make sure that all the scripts pass (`composer run test` in particular);
-- this file should be updated before submitting the task with the documentation on how to run your program.
+**How to install:**
 
-Good luck! :) 
+After clone the project run
+
+
+```bash
+composer install
+```
+
+Create ENV 
+
+```bash
+composer run create-env
+```
+Change Your Access KEY for Exchange rate API in .env file.
+Run project by
+
+```bash
+php index.php
+```
+
+
+
+
+Run Unit Test by
+
+```bash
+ composer run phpunit
+```
+
+
+
