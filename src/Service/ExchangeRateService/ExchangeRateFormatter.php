@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Paysera\CommissionTask\Service\ExchangeRateService;
+namespace Annual\CommissionTask\Service\ExchangeRateService;
 
 class ExchangeRateFormatter implements ExchangeRateFormatterContract
 {
@@ -15,6 +15,6 @@ class ExchangeRateFormatter implements ExchangeRateFormatterContract
         if (!empty($rates['rates']) && !empty($rates['rates'][$currency])) {
             return floatval($rates['rates'][$currency]);
         }
-        return 0;
+        return 0.00;
     }
 }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Paysera\CommissionTask;
+namespace Annual\CommissionTask;
 
-use Paysera\CommissionTask\CommissionRules\RuleContract;
-use Paysera\CommissionTask\Transactions\Transaction;
-use Paysera\CommissionTask\Transactions\TransactionCollection;
+use Annual\CommissionTask\CommissionRules\RuleContract;
+use Annual\CommissionTask\Transactions\Transaction;
+use Annual\CommissionTask\Transactions\TransactionCollection;
 
 class CalculateManager
 {
@@ -26,7 +26,7 @@ class CalculateManager
     }
 
 
-    public function addRules(RuleContract $rule)
+    public function addRule(RuleContract $rule)
     {
         $this->rules[] = $rule;
         return $this;
@@ -58,5 +58,13 @@ class CalculateManager
                 $eachTransaction->getAmount() .
                 "===". $eachTransaction->getCommission() . "\n";
         });
+    }
+
+    /**
+     * @return array
+     */
+    public function getAllTransactions(): array
+    {
+        return $this->transactions->all();
     }
 }

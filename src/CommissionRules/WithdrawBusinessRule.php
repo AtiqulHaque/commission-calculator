@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Paysera\CommissionTask\CommissionRules;
+namespace Annual\CommissionTask\CommissionRules;
 
-use Paysera\CommissionTask\Transactions\Transaction;
+use Annual\CommissionTask\Transactions\Transaction;
 
-class WithdrawBusinessRules implements RuleContract
+class WithdrawBusinessRule implements RuleContract
 {
 
     public function applyRule(Transaction $transaction): Transaction

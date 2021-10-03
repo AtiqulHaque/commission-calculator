@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Paysera\CommissionTask\Service;
+namespace Annual\CommissionTask\Service;
 
 interface MemorizationContract
 {

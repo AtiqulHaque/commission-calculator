@@ -1,16 +1,16 @@
 <?php
 
 use Carbon\Carbon;
-use Paysera\CommissionTask\CalculateManager;
-use Paysera\CommissionTask\CommissionRules\DepositRules;
-use Paysera\CommissionTask\CommissionRules\WithdrawBusinessRules;
-use Paysera\CommissionTask\CommissionRules\WithdrawPrivateRules;
-use Paysera\CommissionTask\Service\ExchangeRateService\ExchangeRateFormatter;
-use Paysera\CommissionTask\Service\ExchangeRateService\ExchangeRateService;
-use Paysera\CommissionTask\Service\WeeklyMemorization;
-use Paysera\CommissionTask\Transactions\CsvDataReader;
-use Paysera\CommissionTask\Transactions\CsvFormatter;
-use Paysera\CommissionTask\Transactions\TransactionCollection;
+use Annual\CommissionTask\CalculateManager;
+use Annual\CommissionTask\CommissionRules\DepositRule;
+use Annual\CommissionTask\CommissionRules\WithdrawBusinessRule;
+use Annual\CommissionTask\CommissionRules\WithdrawPrivateRule;
+use Annual\CommissionTask\Service\ExchangeRateService\ExchangeRateFormatter;
+use Annual\CommissionTask\Service\ExchangeRateService\ExchangeRateService;
+use Annual\CommissionTask\Service\WeeklyMemorization;
+use Annual\CommissionTask\Transactions\CsvDataReader;
+use Annual\CommissionTask\Transactions\CsvFormatter;
+use Annual\CommissionTask\Transactions\TransactionCollection;
 
 require_once "./vendor/autoload.php";
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -29,8 +29,8 @@ $exchangeRateServiceObj =  (new ExchangeRateService($_ENV["EXCHANGE_RATE_URL"]))
 
 (new CalculateManager())
     ->addTransactions($collection)
-    ->addRules(new DepositRules())
-    ->addRules(new WithdrawBusinessRules())
-    ->addRules(new WithdrawPrivateRules(new WeeklyMemorization(), $exchangeRateServiceObj))
+    ->addRule(new DepositRule())
+    ->addRule(new WithdrawBusinessRule())
+    ->addRule(new WithdrawPrivateRule(new WeeklyMemorization(), $exchangeRateServiceObj))
     ->applyAllRules()
     ->printCommission();

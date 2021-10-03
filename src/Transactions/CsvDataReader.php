@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Paysera\CommissionTask\Transactions;
+namespace Annual\CommissionTask\Transactions;
 
 class CsvDataReader extends DataReader
 {

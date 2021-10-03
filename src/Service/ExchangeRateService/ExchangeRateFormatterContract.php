@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Paysera\CommissionTask\Service\ExchangeRateService;
+namespace Annual\CommissionTask\Service\ExchangeRateService;
 
 use stdClass;
 

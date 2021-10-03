@@ -1,16 +1,16 @@
 {
-    "name": "paysera/commission-task-skeleton",
-    "description": "Skeleton for Paysera recruitment task",
+    "name": "annual/commission-calculation-package",
+    "description": "commission calculation package",
     "keywords": [],
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Paysera\\CommissionTask\\": "src"
+            "Annual\\CommissionTask\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Paysera\\CommissionTask\\Tests\\": "tests"
+            "Annual\\CommissionTask\\Tests\\": "tests"
         }
     },
     "require": {
@@ -34,7 +34,7 @@
         "phpunit": "phpunit",
         "fix-cs": "php-cs-fixer fix",
         "test-cs": "php-cs-fixer fix --dry-run -v",
-        "test": ["@phpunit", "@test-cs"],
+        "test": ["@phpunit"],
         "phpcs": "phpcs --standard=PSR12 ./src"
     }
 }
