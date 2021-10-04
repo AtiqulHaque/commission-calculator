@@ -36,6 +36,7 @@ class ExchangeRateService implements ExchangeRateContract
      * @param bool $cache
      * @return float
      * @throws GuzzleException
+     * @throws Exception
      */
     public function getRate($currency, $cache = true): float
     {
