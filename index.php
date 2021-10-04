@@ -13,11 +13,11 @@ use Annual\CommissionTask\Transactions\CsvFormatter;
 use Annual\CommissionTask\Transactions\TransactionCollection;
 
 require_once "./vendor/autoload.php";
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotEnv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotEnv->load();
 
 
-$rawData = (new CsvDataReader("./input.csv"))
+$rawData = (new CsvDataReader($_ENV["CSV_URL"]))
     ->setFormatter(new CsvFormatter())
     ->parseData()
     ->getData();

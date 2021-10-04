@@ -6,6 +6,10 @@ namespace Annual\CommissionTask;
 
 class Helper
 {
+    /**
+     * @param $date
+     * @return float|int
+     */
     public static function calculateWeek($date)
     {
         // 1. Convert input to $year, $month, $day
@@ -14,23 +18,23 @@ class Helper
         $month = date('m', $dateSet);
         $day = date('d', $dateSet);
 
-        // 2. check if $year is a  leapyear
+        // 2. check if $year is a  leapYear
         if (($year % 4 === 0 && $year % 100 !== 0) || $year % 400 === 0) {
             $leapYear = true;
         } else {
             $leapYear = false;
         }
 
-        // 3. check if $year-1 is a  leapyear
+        // 3. check if $year-1 is a  leapYear
         if ((($year - 1) % 4 === 0 && ($year - 1) % 100 !== 0) || ($year - 1) % 400 === 0) {
             $leapYearPrev = true;
         } else {
             $leapYearPrev = false;
         }
 
-        // 4. find the dayofyearnumber for y m d
-        $mnth = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-        $dayOfYearNumber = $day + $mnth[$month - 1];
+        // 4. find the dayOfYearNumber for y m d
+        $monthNumber = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+        $dayOfYearNumber = $day + $monthNumber[$month - 1];
         if ($leapYear && $month > 2) {
             ++$dayOfYearNumber;
         }
@@ -45,7 +49,7 @@ class Helper
         $h = $dayOfYearNumber + ($janFirstWeekDay - 1);
         $weekday = 1 + (($h - 1) % 7);
 
-        // 7. find if y m d falls in yearnumber y-1, weeknumber 52 or 53
+        // 7. find if y m d falls in yearNumber y-1, weekNumber 52 or 53
         $foundWeekNum = false;
         $weekNumber = 0;
         if ($dayOfYearNumber <= (8 - $janFirstWeekDay) && $janFirstWeekDay > 4) {
@@ -60,7 +64,7 @@ class Helper
             $yearNumber = $year;
         }
 
-        // 8. find if y m d falls in yearnumber y+1, weeknumber 1
+        // 8. find if y m d falls in yearNumber y+1, weekNumber 1
         if ($yearNumber === $year && !$foundWeekNum) {
             if ($leapYear) {
                 $i = 366;
@@ -74,7 +78,7 @@ class Helper
             }
         }
 
-        // 9. find if y m d falls in yearnumber y, weeknumber 1 through 53
+        // 9. find if y m d falls in yearNumber y, weekNumber 1 through 53
         if ($yearNumber === $year && !$foundWeekNum) {
             $j = $dayOfYearNumber + (7 - $weekday) + ($janFirstWeekDay - 1);
             $weekNumber = intval($j / 7);

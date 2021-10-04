@@ -10,7 +10,6 @@ class WeeklyMemorization implements MemorizationContract
 
     /**
      * @param $index
-     *
      * @return array|mixed
      */
     public function getData(string $index): array
@@ -21,6 +20,7 @@ class WeeklyMemorization implements MemorizationContract
     /**
      * @param $index
      * @param $data
+     * @return bool
      */
     public function saveData(string $index, array $data): bool
     {

@@ -27,6 +27,7 @@ class TransactionCollection
     }
 
     /**
+     * @param callable $callBack
      * @return array
      */
     public function each(callable $callBack)

@@ -25,6 +25,10 @@ class CalculateManager
         return $this;
     }
 
+    /**
+     * @param RuleContract $rule
+     * @return $this
+     */
     public function addRule(RuleContract $rule)
     {
         $this->rules[] = $rule;
@@ -32,6 +36,9 @@ class CalculateManager
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function applyAllRules()
     {
         $this->transactions->each(function ($eachTransaction) {
@@ -47,14 +54,20 @@ class CalculateManager
         return $this;
     }
 
+    /**
+     *
+     */
     public function printCommission()
     {
         $this->transactions->each(function ($eachTransaction) {
             /** @var Transaction $eachTransaction */
-            echo $eachTransaction->getCommission() . "\n";
+            echo number_format($eachTransaction->getCommission(), 2, '.', '') . "\n";
         });
     }
 
+    /**
+     * @return array
+     */
     public function getAllTransactions(): array
     {
         return $this->transactions->all();

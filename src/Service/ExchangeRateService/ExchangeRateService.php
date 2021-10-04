@@ -21,6 +21,7 @@ class ExchangeRateService implements ExchangeRateContract
     }
 
     /**
+     * @param ExchangeRateFormatterContract $driver
      * @return $this
      */
     public function setFormatter(ExchangeRateFormatterContract $driver)
@@ -72,6 +73,7 @@ class ExchangeRateService implements ExchangeRateContract
 
     /**
      * @param $string
+     * @return bool
      */
     private function isJson($string): bool
     {

@@ -12,7 +12,6 @@ use Annual\CommissionTask\Service\WeeklyMemorization;
 use Annual\CommissionTask\Transactions\CsvInputData;
 use Annual\CommissionTask\Transactions\TransactionCollection;
 use PHPUnit\Framework\TestCase;
-use stdClass;
 
 class CalculateManagerTest extends TestCase
 {
@@ -224,6 +223,15 @@ class CalculateManagerTest extends TestCase
         ];
     }
 
+    /**
+     * @param $transactionDate
+     * @param $user
+     * @param $userType
+     * @param $opType
+     * @param $amount
+     * @param $currency
+     * @return CsvInputData
+     */
     public function getSampleTransaction($transactionDate, $user, $userType, $opType, $amount, $currency): CsvInputData
     {
         $inputObject = new CsvInputData();

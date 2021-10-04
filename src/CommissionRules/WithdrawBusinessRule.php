@@ -8,6 +8,10 @@ use Annual\CommissionTask\Transactions\Transaction;
 
 class WithdrawBusinessRule implements RuleContract
 {
+    /**
+     * @param Transaction $transaction
+     * @return Transaction
+     */
     public function applyRule(Transaction $transaction): Transaction
     {
         if ($transaction->isWithdraw() && $transaction->isBusinessWithdraw()) {

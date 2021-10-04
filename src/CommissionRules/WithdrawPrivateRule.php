@@ -22,6 +22,10 @@ class WithdrawPrivateRule implements RuleContract
         $this->exchangeRateService = $exchangeRateService;
     }
 
+    /**
+     * @param Transaction $transaction
+     * @return Transaction
+     */
     public function applyRule(Transaction $transaction): Transaction
     {
         if ($transaction->isWithdraw() && $transaction->isPrivateWithdraw()) {
@@ -51,7 +55,13 @@ class WithdrawPrivateRule implements RuleContract
         return $transaction;
     }
 
-    public function updateMemoryWithIndex(string $index, array $weeklyHistory, float $amount): bool
+    /**
+     * @param string $index
+     * @param array $weeklyHistory
+     * @param float $amount
+     * @return bool
+     */
+    protected function updateMemoryWithIndex(string $index, array $weeklyHistory, float $amount): bool
     {
         if (!empty($weeklyHistory)) {
             $weeklyHistory['weeklyTotal'] += $amount;
@@ -65,7 +75,12 @@ class WithdrawPrivateRule implements RuleContract
     }
 
     /**
+     * @param Transaction $transaction
      * @param $amount
+     * @param string $index
+     * @param array $weeklyHistory
+     * @param float $rate
+     * @return float
      */
     protected function updateCommission(
         Transaction $transaction,
@@ -87,7 +102,13 @@ class WithdrawPrivateRule implements RuleContract
         return (float) $calculatedValue;
     }
 
-    protected function processIfCurrencyEuro(Transaction $transaction, array $weeklyHistory, string $index): void
+    /**
+     * @param Transaction $transaction
+     * @param array $weeklyHistory
+     * @param string $index
+     * @return float
+     */
+    protected function processIfCurrencyEuro(Transaction $transaction, array $weeklyHistory, string $index): float
     {
         $amount = $weeklyHistory['weeklyTotal'];
         if ($amount > $this->weeklyChargeFreeAmount) {
@@ -101,9 +122,16 @@ class WithdrawPrivateRule implements RuleContract
             $transaction->setCommission($calculatedValue);
             $this->updateMemoryWithIndex($index, $weeklyHistory, $transaction->getAmount());
         }
+        return $calculatedValue;
     }
 
-    protected function processIfNotEuro(Transaction $transaction, array $weeklyHistory, string $index): void
+    /**
+     * @param Transaction $transaction
+     * @param array $weeklyHistory
+     * @param string $index
+     * @return float
+     */
+    protected function processIfNotEuro(Transaction $transaction, array $weeklyHistory, string $index): float
     {
         $rate = $this->exchangeRateService->getRate($transaction->getCurrency());
         $amount = $transaction->getAmount();
@@ -117,8 +145,15 @@ class WithdrawPrivateRule implements RuleContract
                 $this->updateCommission($transaction, $amount, $index, $weeklyHistory, $rate);
             }
         }
+        return $amount;
     }
 
+    /**
+     * @param Transaction $transaction
+     * @param string $index
+     * @param array $weeklyHistory
+     * @return float
+     */
     protected function processIfNotEuroWithEmptyHistory(
         Transaction $transaction,
         string $index,
@@ -131,13 +166,7 @@ class WithdrawPrivateRule implements RuleContract
             $amount = $amount / $rate;
             if ($amount > $this->weeklyChargeFreeAmount) {
                 $amount = abs($amount - $this->weeklyChargeFreeAmount);
-                $this->updateCommission(
-                    $transaction,
-                    $amount,
-                    $index,
-                    $weeklyHistory,
-                    $rate
-                );
+                $this->updateCommission($transaction, $amount, $index, $weeklyHistory, $rate);
             } else {
                 $this->updateMemoryWithIndex($index, $weeklyHistory, $amount);
             }
@@ -146,6 +175,12 @@ class WithdrawPrivateRule implements RuleContract
         return (float) $amount;
     }
 
+    /**
+     * @param Transaction $transaction
+     * @param string $index
+     * @param array $weeklyHistory
+     * @return float
+     */
     protected function processEuroWithEmptyHistory(Transaction $transaction, string $index, array $weeklyHistory): float
     {
         if ($transaction->getAmount() > $this->weeklyChargeFreeAmount) {
@@ -160,17 +195,17 @@ class WithdrawPrivateRule implements RuleContract
         return (float) $transaction->getAmount();
     }
 
-    public function setWeeklyCountConstrain(int $weeklyCountConstrain)
+    protected function setWeeklyCountConstrain(int $weeklyCountConstrain)
     {
         $this->weeklyCountConstrain = $weeklyCountConstrain;
     }
 
-    public function setWeeklyChargeFreeAmount(int $weeklyChargeFreeAmount)
+    protected function setWeeklyChargeFreeAmount(int $weeklyChargeFreeAmount)
     {
         $this->weeklyChargeFreeAmount = $weeklyChargeFreeAmount;
     }
 
-    public function setCommissionFee(float $commissionFee)
+    protected function setCommissionFee(float $commissionFee)
     {
         $this->commissionFee = $commissionFee;
     }
