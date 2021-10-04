@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Annual\CommissionTask\Transactions;
+namespace Annual\CommissionTask\Service\DataReaderService;
 
 abstract class DataReader implements DataReaderContract
 {

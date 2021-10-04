@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Annual\CommissionTask\Transactions;
+namespace Annual\CommissionTask\Service\DataReaderService;
 
 class CsvInputData
 {

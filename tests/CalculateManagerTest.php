@@ -7,9 +7,9 @@ use Annual\CommissionTask\CalculateManager;
 use Annual\CommissionTask\CommissionRules\DepositRule;
 use Annual\CommissionTask\CommissionRules\WithdrawBusinessRule;
 use Annual\CommissionTask\CommissionRules\WithdrawPrivateRule;
+use Annual\CommissionTask\Service\DataReaderService\CsvInputData;
 use Annual\CommissionTask\Service\ExchangeRateService\ExchangeRateService;
-use Annual\CommissionTask\Service\WeeklyMemorization;
-use Annual\CommissionTask\Transactions\CsvInputData;
+use Annual\CommissionTask\Service\Memorization\WeeklyMemorization;
 use Annual\CommissionTask\Transactions\TransactionCollection;
 use PHPUnit\Framework\TestCase;
 
@@ -201,7 +201,8 @@ class CalculateManagerTest extends TestCase
                 "EUR",
                 0.0,
                 1.00
-            ],'Calculate Commission with 2016-01-06,1,private,withdraw,30000,JPY' => [
+            ],
+            'Calculate Commission with 2016-01-06,1,private,withdraw,30000,JPY'   => [
                 '2016-01-05',
                 '1',
                 'private',
@@ -210,7 +211,8 @@ class CalculateManagerTest extends TestCase
                 "JPY",
                 0.0,
                 129.53
-            ],'Calculate Commission with 2016-02-19,5,private,withdraw,3000000,JPY' => [
+            ],
+            'Calculate Commission with 2016-02-19,5,private,withdraw,3000000,JPY' => [
                 '2016-02-19',
                 '5',
                 'private',

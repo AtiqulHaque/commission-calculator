@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Annual\CommissionTask\Service;
+namespace Annual\CommissionTask\Service\Memorization;
 
 interface MemorizationContract
 {

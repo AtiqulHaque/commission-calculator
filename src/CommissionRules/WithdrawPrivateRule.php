@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Annual\CommissionTask\CommissionRules;
 
 use Annual\CommissionTask\Service\ExchangeRateService\ExchangeRateContract;
-use Annual\CommissionTask\Service\WeeklyMemorization;
+use Annual\CommissionTask\Service\Memorization\WeeklyMemorization;
 use Annual\CommissionTask\Transactions\Transaction;
 
 class WithdrawPrivateRule implements RuleContract

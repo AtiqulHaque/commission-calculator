@@ -7,9 +7,9 @@ use Annual\CommissionTask\CommissionRules\WithdrawBusinessRule;
 use Annual\CommissionTask\CommissionRules\WithdrawPrivateRule;
 use Annual\CommissionTask\Service\ExchangeRateService\ExchangeRateFormatter;
 use Annual\CommissionTask\Service\ExchangeRateService\ExchangeRateService;
-use Annual\CommissionTask\Service\WeeklyMemorization;
-use Annual\CommissionTask\Transactions\CsvDataReader;
-use Annual\CommissionTask\Transactions\CsvFormatter;
+use Annual\CommissionTask\Service\Memorization\WeeklyMemorization;
+use Annual\CommissionTask\Service\DataReaderService\CsvDataReader;
+use Annual\CommissionTask\Service\DataReaderService\CsvFormatter;
 use Annual\CommissionTask\Transactions\TransactionCollection;
 
 require_once "./vendor/autoload.php";

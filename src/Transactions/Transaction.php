@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Annual\CommissionTask\Transactions;
 
 use Annual\CommissionTask\Helper;
+use Annual\CommissionTask\Service\DataReaderService\CsvInputData;
 
 class Transaction
 {
