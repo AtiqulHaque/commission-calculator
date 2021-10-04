@@ -1,4 +1,4 @@
-#Tiny Commission calculator
+# Tiny Commission calculator
 Its very simple commission calculator package. 
 This package read transaction from a CSV file then apply Pre define commission Rules. 
 
@@ -7,19 +7,19 @@ This package read transaction from a CSV file then apply Pre define commission R
 After clone the project run
 
 
-```bash
+```properties
 composer install
 ```
 
 Create ENV 
 
-```bash
+```properties
 composer run create-env
 ```
 Change Your Access KEY for Exchange rate API in .env file.
 Run project by
 
-```bash
+```properties
 php index.php
 ```
 
@@ -28,7 +28,7 @@ php index.php
 
 Run Unit Test by
 
-```bash
+```properties
  composer run phpunit
 ```
 
