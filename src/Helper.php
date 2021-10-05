@@ -8,6 +8,7 @@ class Helper
 {
     /**
      * @param $date
+     *
      * @return float|int
      */
     public static function calculateWeek($date)

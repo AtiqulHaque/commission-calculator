@@ -22,10 +22,6 @@ class WithdrawPrivateRule implements RuleContract
         $this->exchangeRateService = $exchangeRateService;
     }
 
-    /**
-     * @param Transaction $transaction
-     * @return Transaction
-     */
     public function applyRule(Transaction $transaction): Transaction
     {
         if ($transaction->isWithdraw() && $transaction->isPrivateWithdraw()) {
@@ -55,12 +51,6 @@ class WithdrawPrivateRule implements RuleContract
         return $transaction;
     }
 
-    /**
-     * @param string $index
-     * @param array $weeklyHistory
-     * @param float $amount
-     * @return bool
-     */
     protected function updateMemoryWithIndex(string $index, array $weeklyHistory, float $amount): bool
     {
         if (!empty($weeklyHistory)) {
@@ -75,11 +65,7 @@ class WithdrawPrivateRule implements RuleContract
     }
 
     /**
-     * @param Transaction $transaction
      * @param $amount
-     * @param string $index
-     * @param array $weeklyHistory
-     * @param float $rate
      * @return float
      */
     protected function updateCommission(
@@ -122,6 +108,7 @@ class WithdrawPrivateRule implements RuleContract
             $transaction->setCommission($calculatedValue);
             $this->updateMemoryWithIndex($index, $weeklyHistory, $transaction->getAmount());
         }
+
         return $calculatedValue;
     }
 
@@ -145,6 +132,7 @@ class WithdrawPrivateRule implements RuleContract
                 $this->updateCommission($transaction, $amount, $index, $weeklyHistory, $rate);
             }
         }
+
         return $amount;
     }
 
@@ -195,16 +183,25 @@ class WithdrawPrivateRule implements RuleContract
         return (float) $transaction->getAmount();
     }
 
+    /**
+     * @param int $weeklyCountConstrain
+     */
     protected function setWeeklyCountConstrain(int $weeklyCountConstrain)
     {
         $this->weeklyCountConstrain = $weeklyCountConstrain;
     }
 
+    /**
+     * @param int $weeklyChargeFreeAmount
+     */
     protected function setWeeklyChargeFreeAmount(int $weeklyChargeFreeAmount)
     {
         $this->weeklyChargeFreeAmount = $weeklyChargeFreeAmount;
     }
 
+    /**
+     * @param float $commissionFee
+     */
     protected function setCommissionFee(float $commissionFee)
     {
         $this->commissionFee = $commissionFee;

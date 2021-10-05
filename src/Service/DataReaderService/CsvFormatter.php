@@ -6,10 +6,6 @@ namespace Annual\CommissionTask\Service\DataReaderService;
 
 class CsvFormatter implements FormatterContract
 {
-    /**
-     * @param array $rawData
-     * @return CsvInputData
-     */
     public function format(array $rawData): CsvInputData
     {
         $inputData = new CsvInputData();

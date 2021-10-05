@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Annual\CommissionTask\Service\DataReaderService;
 
+use Generator;
+
 class CsvDataReader extends DataReader
 {
     public function __construct($baseUrl)
@@ -11,10 +13,6 @@ class CsvDataReader extends DataReader
         $this->baseUrl = $baseUrl;
     }
 
-    /**
-     * @param FormatterContract $formatter
-     * @return CsvDataReader
-     */
     public function setFormatter(FormatterContract $formatter): CsvDataReader
     {
         $this->formatter = $formatter;
@@ -22,28 +20,15 @@ class CsvDataReader extends DataReader
         return $this;
     }
 
-    /**
-     * @return CsvDataReader
-     */
-    public function parseData(): CsvDataReader
+    public function getDataFromFile(): Generator
     {
         if (file_exists($this->baseUrl)) {
             if (($handle = fopen($this->baseUrl, 'r')) !== false) {
                 while (($data = fgetcsv($handle, 1000, ',')) !== false) {
-                    $this->content[] = $this->formatter->format($data);
+                    yield $this->formatter->format($data);
                 }
                 fclose($handle);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getData(): array
-    {
-        return $this->content;
     }
 }

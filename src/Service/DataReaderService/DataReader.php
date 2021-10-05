@@ -6,8 +6,6 @@ namespace Annual\CommissionTask\Service\DataReaderService;
 
 abstract class DataReader implements DataReaderContract
 {
-    public $dataReadDriver = null;
-
     public $formatter = null;
 
     protected $content = [];

@@ -10,36 +10,12 @@ use Annual\CommissionTask\CommissionRules\WithdrawPrivateRule;
 use Annual\CommissionTask\Service\DataReaderService\CsvInputData;
 use Annual\CommissionTask\Service\ExchangeRateService\ExchangeRateService;
 use Annual\CommissionTask\Service\Memorization\WeeklyMemorization;
+use Annual\CommissionTask\Transactions\Transaction;
 use Annual\CommissionTask\Transactions\TransactionCollection;
 use PHPUnit\Framework\TestCase;
 
 class CalculateManagerTest extends TestCase
 {
-    public function testFileReadWhenEmpty()
-    {
-        $rateService = $this->getMockBuilder(ExchangeRateService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getRate'])
-            ->getMock();
-
-
-        $collection = new TransactionCollection([]);
-
-        $rateService->method('getRate')->willReturn(1.00);
-
-        $manager = new CalculateManager();
-
-
-        $manager->addTransactions($collection)
-            ->addRule(new DepositRule())
-            ->addRule(new WithdrawBusinessRule())
-            ->addRule(new WithdrawPrivateRule(new WeeklyMemorization(), $rateService))
-            ->applyAllRules();
-
-
-        $this->assertEquals(0, count($manager->getAllTransactions()));
-    }
-
     /**
      * @param $tDate
      * @param $user
@@ -58,41 +34,46 @@ class CalculateManagerTest extends TestCase
             ->setMethods(['getRate'])
             ->getMock();
 
-        $collection = new TransactionCollection([
-            $this->getSampleTransaction(
-                $tDate,
-                $user,
-                $uType,
-                $opType,
-                $amount,
-                $currency
-            )
-        ]);
+        $transaction = new Transaction($this->getSampleTransaction(
+            $tDate,
+            $user,
+            $uType,
+            $opType,
+            $amount,
+            $currency
+        ));
 
         $rateService->method('getRate')->willReturn($rate);
-
         $manager = new CalculateManager();
 
-
-        $manager->addTransactions($collection)
-            ->addRule(new DepositRule())
+        $transaction = $manager->addRule(new DepositRule())
             ->addRule(new WithdrawBusinessRule())
             ->addRule(new WithdrawPrivateRule(new WeeklyMemorization(), $rateService))
-            ->applyAllRules();
+            ->applyAllRulesUsingGenerator($transaction);
 
-        $calculateTransaction = $manager->getAllTransactions();
-        $this->assertEquals(1, count($calculateTransaction));
-        $this->assertEquals($commi, round($calculateTransaction[0]->getCommission(), 2));
+        $this->assertEquals($commi, round($transaction->getCommission(), 2));
     }
 
 
     public function testCalculatorWithValidWithdrawWithMultipleTransition()
     {
-        $content = array();
-        $requiredCommission = array();
+        $rateService = $this->getMockBuilder(ExchangeRateService::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getRate'])
+            ->getMock();
+
+        $rateService->method('getRate')->willReturn(1.00);
+
+        $manager = new CalculateManager();
+
+
+        $manager->addRule(new DepositRule())
+            ->addRule(new WithdrawBusinessRule())
+            ->addRule(new WithdrawPrivateRule(new WeeklyMemorization(), $rateService));
+
 
         foreach ($this->dataProviderForMultipleTransaction() as $item) {
-            $content [] = $this->getSampleTransaction(
+            $content = $this->getSampleTransaction(
                 $item[0],
                 $item[1],
                 $item[2],
@@ -100,35 +81,12 @@ class CalculateManagerTest extends TestCase
                 $item[4],
                 $item[5]
             );
-            $requiredCommission [] = $item[6];
-        }
+            $content = $manager->applyAllRulesUsingGenerator(new Transaction($content));
 
-        $rateService = $this->getMockBuilder(ExchangeRateService::class)
-            ->disableOriginalConstructor()
-            ->setMethods(['getRate'])
-            ->getMock();
-
-        $collection = new TransactionCollection($content);
-
-        $rateService->method('getRate')->willReturn(1.00);
-
-        $manager = new CalculateManager();
-
-
-        $manager->addTransactions($collection)
-            ->addRule(new DepositRule())
-            ->addRule(new WithdrawBusinessRule())
-            ->addRule(new WithdrawPrivateRule(new WeeklyMemorization(), $rateService))
-            ->applyAllRules();
-
-        $calculateTransaction = $manager->getAllTransactions();
-        $this->assertEquals(3, count($calculateTransaction));
-
-        foreach ($calculateTransaction as $key => $each) {
             $this->assertEquals(
-                $requiredCommission[$key],
-                $each->getCommission(),
-                "Calculate for Date : {$each->getTransactionDate()}"
+                $item[6],
+                $content->getCommission(),
+                "Calculate for Date : {$content->getTransactionDate()}"
             );
         }
     }

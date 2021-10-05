@@ -21,7 +21,6 @@ class ExchangeRateService implements ExchangeRateContract
     }
 
     /**
-     * @param ExchangeRateFormatterContract $driver
      * @return $this
      */
     public function setFormatter(ExchangeRateFormatterContract $driver)

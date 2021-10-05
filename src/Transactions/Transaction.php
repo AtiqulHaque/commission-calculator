@@ -27,81 +27,51 @@ class Transaction
         $this->operationCurrency = $obj->getOperationCurrency();
     }
 
-    /**
-     * @return bool
-     */
     public function isCurrencyEuro(): bool
     {
         return $this->operationCurrency === 'EUR';
     }
 
-    /**
-     * @return float
-     */
     public function getAmount(): float
     {
         return $this->operationAmount;
     }
 
-    /**
-     * @return string
-     */
     public function getCurrency(): string
     {
         return $this->operationCurrency;
     }
 
-    /**
-     * @return string
-     */
     public function getTransactionDate(): string
     {
         return $this->transactionDate;
     }
 
-    /**
-     * @return float
-     */
     public function getCommission(): float
     {
         return $this->commission;
     }
 
-    /**
-     * @param float $commission
-     */
     public function setCommission(float $commission)
     {
         $this->commission = $commission;
     }
 
-    /**
-     * @return bool
-     */
     public function isDeposit(): bool
     {
         return $this->operationType === 'deposit';
     }
 
-    /**
-     * @return bool
-     */
     public function isWithdraw(): bool
     {
         return $this->operationType === 'withdraw';
     }
 
-    /**
-     * @return bool
-     */
     public function isPrivateWithdraw(): bool
     {
         return $this->userType === 'private';
     }
 
-    /**
-     * @return bool
-     */
     public function isBusinessWithdraw(): bool
     {
         return $this->userType === 'business';
